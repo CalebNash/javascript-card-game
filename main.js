@@ -1,3 +1,4 @@
+var toggle = true;
 class Card {
   constructor({
     value,
@@ -49,37 +50,52 @@ class Deck {
 
 class Game {
   constructor() {
-    // this.play = function() {
-    //   const round = [];
-    //   round.push(player1.hand.splice(0, 1));
-    //   round.push(player2.hand.splice(0, 1));
-    //
-    //   if(round[0][0].value > round[1][0].value){
-    //     player1.hand.push(round[0][0], round[1][0]);
-    //   }else{
-    //     player2.hand.push(round[0][0], round[1][0]);
-    //   }
-    //
-    // }
+
   }
   play() {
     const round = [];
     round.push(player1.hand.shift());
     round.push(player2.hand.shift());
-      console.log(round[0], round[1]);
+    console.log(round[0], round[1]);
 
-    if(round[0].value > round[1].value){
-      player1.hand.unshift(round[0], round[1]);
-    }else{
-      player2.hand.unshift(round[0], round[1]);
+    if (round[0].value > round[1].value) {
+      player1.hand.push(round[1], round[0]);
+    } else if (round[0].value < round[1].value) {
+      player2.hand.push(round[0], round[1]);
+    } else {
+      game.war();
+      if(toggle == true){
+        player1.hand.push(round[1], round[0]);
+      }else{
+        player2.hand.push(round[0], round[1]);
+      }
     }
-     console.log(player1.hand, player2.hand);
+    console.log(player1.hand, player2.hand);
 
   }
 
-  war(){
-
-  }
+  war() {
+    const warRound = [];
+    warRound.unshift(player1.hand.shift());
+    warRound.unshift(player2.hand.shift());
+    warRound.unshift(player1.hand.shift());
+    warRound.unshift(player2.hand.shift());
+    console.log(warRound[3], warRound[2]);
+    if (warRound[3].value > warRound[2].value) {
+      for (var i of warRound) {
+        player1.hand.push(i);
+      }
+      toggle = true;
+    }else if(warRound[3].value < warRound[2].value){
+      for (var i of warRound) {
+        player2.hand.push(i);
+      }
+      toggle = false;
+    }else{
+      game.war();
+    }
+    console.log(player1.hand, player2.hand);
+}
 
 }
 
@@ -106,9 +122,9 @@ const player2 = new Player({
 
 
 var i = 0
-
-while(player1.hand.length > 0 && player2.hand.length > 0){
-  game.play();
-  i++
-}
-console.log(i);
+game.play();
+// while(player1.hand.length > 0 && player2.hand.length > 0){
+//   game.play();
+// i++
+// }
+// console.log(i);
