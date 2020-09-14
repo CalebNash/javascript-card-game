@@ -49,21 +49,35 @@ class Deck {
 
 class Game {
   constructor() {
-    this.play = function() {
-      const round = [];
-      round.push(player1.hand.splice(0, 1));
-      round.push(player2.hand.splice(0, 1));
+    // this.play = function() {
+    //   const round = [];
+    //   round.push(player1.hand.splice(0, 1));
+    //   round.push(player2.hand.splice(0, 1));
+    //
+    //   if(round[0][0].value > round[1][0].value){
+    //     player1.hand.push(round[0][0], round[1][0]);
+    //   }else{
+    //     player2.hand.push(round[0][0], round[1][0]);
+    //   }
+    //
+    // }
+  }
+  play() {
+    const round = [];
+    round.push(player1.hand.shift());
+    round.push(player2.hand.shift());
+      console.log(round[0], round[1]);
 
-      if(round[0][0].value > round[1][0].value){
-        player1.hand.push(round[0][0], round[1][0]);
-      }else{
-        player2.hand.push(round[0][0], round[1][0]);
-      }
-
+    if(round[0].value > round[1].value){
+      player1.hand.unshift(round[0], round[1]);
+    }else{
+      player2.hand.unshift(round[0], round[1]);
     }
+     console.log(player1.hand, player2.hand);
+
   }
 
-  war() {
+  war(){
 
   }
 
@@ -81,6 +95,7 @@ class Player {
 
 
 //player class and game class and game is over everythibg
+const game = new Game();
 const deck = new Deck();
 const player1 = new Player({
   name: 'Player1'
@@ -90,22 +105,10 @@ const player2 = new Player({
 });
 
 
-// const round = [];
-// round.push(player1.hand.splice(0, 1));
-// round.push(player2.hand.splice(0, 1));
-// console.log(round[0][0].value);
-// if(round[0].value > round[1].value){
-//   player1.hand.push(round[0][0], round[1][0]);
-// }else{
-//   player2.hand.push(round[0][0], round[1][0]);
-// }
-const round = [];
-round.push(player1.hand.splice(0, 1));
-round.push(player2.hand.splice(0, 1));
+var i = 0
 
-if(round[0][0].value > round[1][0].value){
-  player1.hand.push(round[0][0], round[1][0]);
-}else{
-  player2.hand.push(round[0][0], round[1][0]);
+while(player1.hand.length > 0 && player2.hand.length > 0){
+  game.play();
+  i++
 }
-console.log(player1.hand, player2.hand);
+console.log(i);
